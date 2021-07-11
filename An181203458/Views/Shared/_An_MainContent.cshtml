@@ -1,0 +1,71 @@
+﻿@model IEnumerable<An181203458.Models.Entities.HangHoa>
+<div class="content_top">
+    <div class="heading">
+        <h3>Nguyễn Văn An</h3>
+    </div>
+    <div class="see">
+        <p><a href="#">See all Products</a></p>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="section group">
+    @foreach (var hh in Model)
+    {
+        <div class="grid_1_of_4 images_1_of_4">
+            <a href="preview.html"><img src="~/Content/images/@hh.Anh" alt="" /></a>
+            <h2>@hh.TenHang</h2>
+            <div class="price-details">
+                <div class="price-number">
+                    <p><span class="rupees">$@hh.Gia</span></p>
+                </div>
+                <div class="add-cart">
+                    <h4><a href="preview.html">Add to Cart</a></h4>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    }
+</div>
+<div class="card-footer">
+    <i>Trang @ViewBag.pageCurrent / @ViewBag.numSize</i> 
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @{
+                int position;
+                int pageCurrent = ViewBag.pageCurrent;
+                string txtSearch = ViewBag.txtSearch;
+                float numSize = ViewBag.numSize;
+                if (pageCurrent > 1)
+                {
+                    <li class="btn btn-outline-dark">
+
+                        @Ajax.ActionLink("Previous", "RenderProductById", new { page = pageCurrent - 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ViewProduct", InsertionMode = InsertionMode.Replace})
+                    </li>
+                }
+                for (position = 1; position <= numSize; position++)
+                {
+                    if (position == pageCurrent)
+                    {
+                        <li class="btn btn-outline-dark">
+                            @Ajax.ActionLink(@position + "", "RenderProductById", new { page = position }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ViewProduct", InsertionMode = InsertionMode.Replace})
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="btn btn-outline-dark">
+                            @Ajax.ActionLink(@position + "", "RenderProductById", new { page = position }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ViewProduct", InsertionMode = InsertionMode.Replace})
+                        </li>
+                    }
+                }
+                if (pageCurrent > 0 && pageCurrent < numSize)
+                {
+                    <li class="btn btn-outline-dark">
+                        @Ajax.ActionLink("Next" + "", "RenderProductById", new { page = pageCurrent + 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ViewProduct", InsertionMode = InsertionMode.Replace})
+                    </li>
+                }
+            }
+
+        </ul>
+    </nav>
+</div>

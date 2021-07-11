@@ -1,0 +1,65 @@
+﻿@model IEnumerable<An181203458.Models.Entities.LoaiHang>
+<div class="header">
+    <div class="header_top">
+        <div class="logo">
+            <a href="index"><img src="~/Content/images/logo.png" alt="" /></a>
+        </div>
+        <div class="cart">
+            <p>
+                Welcome to our Online Store! <span>Cart:</span><div id="dd" class="wrapper-dropdown-2">
+                    0 item(s) - $0.00
+                    <ul class="dropdown">
+                        <li>you have no items in your Shopping cart</li>
+                    </ul>
+                </div>
+            </p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="header_bottom">
+        <div class="menu">
+            <ul>
+                <li class="active"><a>Nguyen Van An</a></li>
+                @foreach (var lh in Model)
+                {
+                    <li id="@lh.MaLoai"><a>@lh.TenLoai</a></li>
+                }
+                <li>@Html.ActionLink("Create", "Create")</li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="search_box">
+            <form>
+                <input type="text" id="inputSearch" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
+                <input type="button" value="" id="button" onclick="Onsearch()">
+            </form>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<script>
+    $("li").click(function (e) { /* khi click vào thẻ <li></li> */
+        var id = $(this).attr("id");
+        $.ajax({
+            url: "RenderProductById",/* tên action gọi đến */
+            data: { id: id }, /* biến truyền vào action */
+            success: function (response) {
+                $("div.content").html(response);/* Thẻ <div class="content"> bên file _Name_Layout nhận kết quả trả về */
+            }
+        });
+    });
+
+    function Onsearch() {
+        txtSearch = document.getElementById("inputSearch").value
+        console.log(txtSearch)
+        //alert(txtSearch);
+        $.ajax({
+            url: "RenderProductByName",/* tên action gọi đến */
+            data: { id: txtSearch }, /* biến truyền vào action */
+            success: function (response) {
+                $("div.content").html(response);/* Thẻ <div class="content"> bên file _Name_Layout nhận kết quả trả về */
+            }
+        });
+    }
+</script>

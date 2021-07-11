@@ -1,0 +1,37 @@
+﻿<!DOCTYPE HTML>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/Content/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Content/css/slider.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="~/Scripts/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/js/startstop-slider.js"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/alljs")
+</head>
+<body>
+    <!-- Begin Wrap -->
+    <div class="wrap">
+        <!-- Begin Header -->
+        @Html.Action("RenderNav")
+        <!-- End Header -->
+        <!-- Begin Main -->
+        <div class="main">
+            <div class="content">
+                <!-- Begin New Product -->
+                @RenderBody()
+                <!-- End New Product -->
+                <!-- Begin Feature Products -->
+                <!-- End Feature Products -->
+            </div>
+        </div>
+        <!-- End Main -->
+    </div>
+    <!-- End Wrap -->
+    <!-- Begin Footer -->
+    @Html.Partial("_An_Footer")
+    <!-- End Footer -->
+</body>
+</html>
+
