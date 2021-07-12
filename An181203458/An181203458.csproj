@@ -262,6 +262,7 @@
     <Content Include="Views\Shared\_An_MainContent.cshtml" />
     <Content Include="Views\AnNguyen\Index.cshtml" />
     <Content Include="Views\Shared\_An_MainContent2.cshtml" />
+    <Content Include="Views\Shared\_An_MainContent3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

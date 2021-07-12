@@ -47,7 +47,7 @@ namespace An181203458.Controllers
             int numSize = (int)Math.Ceiling(totalNumsize);
             ViewBag.numSize = numSize;
             var listHangHoa2 = listHangHoa.OrderBy(x => x.MaHang).Skip(start).Take(pageSize);
-            return PartialView("_An_MainContent", listHangHoa2);
+            return PartialView("_An_MainContent3", listHangHoa2);
         }
 
     }

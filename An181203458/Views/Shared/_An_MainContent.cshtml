@@ -11,61 +11,63 @@
 <div class="section group">
     @foreach (var hh in Model)
     {
-        <div class="grid_1_of_4 images_1_of_4">
-            <a href="preview.html"><img src="~/Content/images/@hh.Anh" alt="" /></a>
-            <h2>@hh.TenHang</h2>
-            <div class="price-details">
-                <div class="price-number">
-                    <p><span class="rupees">$@hh.Gia</span></p>
-                </div>
-                <div class="add-cart">
-                    <h4><a href="preview.html">Add to Cart</a></h4>
-                </div>
-                <div class="clear"></div>
-            </div>
-
+<div class="grid_1_of_4 images_1_of_4">
+    <a href="preview.html"><img src="~/Content/images/@hh.Anh" alt="" /></a>
+    <h2>@hh.TenHang</h2>
+    <div class="price-details">
+        <div class="price-number">
+            <p><span class="rupees">$@hh.Gia</span></p>
         </div>
-    }
+        <div class="add-cart">
+            <h4><a href="preview.html">Add to Cart</a></h4>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+</div>}
 </div>
+<!-- Begin Phân trang -->
 <div class="card-footer">
-    <i>Trang @ViewBag.pageCurrent / @ViewBag.numSize</i> 
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            @{
-                int position;
-                int pageCurrent = ViewBag.pageCurrent;
-                string txtSearch = ViewBag.txtSearch;
-                float numSize = ViewBag.numSize;
-                if (pageCurrent > 1)
-                {
-                    <li class="btn btn-outline-dark">
-
-                        @Ajax.ActionLink("Previous", "RenderProductById", new { page = pageCurrent - 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ViewProduct", InsertionMode = InsertionMode.Replace})
-                    </li>
-                }
-                for (position = 1; position <= numSize; position++)
-                {
-                    if (position == pageCurrent)
-                    {
-                        <li class="btn btn-outline-dark">
-                            @Ajax.ActionLink(@position + "", "RenderProductById", new { page = position }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ViewProduct", InsertionMode = InsertionMode.Replace})
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="btn btn-outline-dark">
-                            @Ajax.ActionLink(@position + "", "RenderProductById", new { page = position }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ViewProduct", InsertionMode = InsertionMode.Replace})
-                        </li>
-                    }
-                }
-                if (pageCurrent > 0 && pageCurrent < numSize)
-                {
-                    <li class="btn btn-outline-dark">
-                        @Ajax.ActionLink("Next" + "", "RenderProductById", new { page = pageCurrent + 1 }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ViewProduct", InsertionMode = InsertionMode.Replace})
-                    </li>
-                }
-            }
-
+            @{ int position;
+                            int pageCurrent = ViewBag.pageCurrent;
+                            int pageNext = ViewBag.pageCurrent + 1;
+                            int pagePrevious = ViewBag.pageCurrent - 1;
+                            float numSize = ViewBag.numSize;
+                            if (pageCurrent > 1)
+                            {
+                <li class="btn btn-default" id="1" onclick="onClick(this.id)"><<</li>
+                                <li class="btn btn-default" id="@pagePrevious" onclick="onClick(this.id)"><</li> }
+                                            for (position = 1; position <= numSize; position++)
+                                            {
+                                                if (position == pageCurrent)
+                                                {
+                                <li class="btn btn-info" id="@position" onclick="onClick(this.id)">@position</li> }
+                                                else
+                                                {
+                                <li class="btn btn-default" id="@position" onclick="onClick(this.id)">@position</li> }
+                                            }
+                                            if (pageCurrent > 0 && pageCurrent < numSize)
+                                            {
+                                <li class="btn btn-default" id="@pageNext" onclick="onClick(this.id)">></li>
+                                                <li class="btn btn-default" id="@numSize" onclick="onClick(this.id)">>></li> } }
         </ul>
     </nav>
 </div>
+
+<script>
+    function onClick(id, txtSearch) {
+        /*alert(id);*/
+        txtSearch = document.getElementById("inputSearch").value
+        console.log(txtSearch)
+        $.ajax({
+            url: "RenderProductById",/* tên action gọi đến */
+            data: { page: id, txtSearch: txtSearch }, /* biến truyền vào action */
+            success: function (response) {
+                $("div.content").html(response);/* Thẻ <div class="content"> bên file _Name_Layout nhận kết quả trả về */
+            }
+        });
+    }
+</script>
+<!-- End Phân trang -->

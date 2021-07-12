@@ -24,32 +24,36 @@ namespace An181203458.Controllers
             List<LoaiHang> listLH = db.LoaiHangs.ToList();
             return PartialView("_An_Header", listLH);
         }
+
         // GET: Ajax phân trang
-        public ActionResult RenderProductById(int? id, int? idPro, int? page)
+        public ActionResult RenderProductById(int? id, int? page, String txtSearch)
         {
-            int pageSize = 3;
+            // ------------------------------------- lấy danh sách sản phẩm theo yêu cầu -------------
             var listHangHoa = db.HangHoas.Where(s => s.Gia >= 100).ToList();
             if (id != null)
             {
+                // lấy danh sách sản phẩm theo 'Mã loại'
                 listHangHoa = db.HangHoas.Where(s => s.MaLoai == id).ToList();
             }
-            if (page > 0)
+            if(txtSearch != null && txtSearch != "Search")
             {
-                page = page + 0;
+                // lấy danh sách sản phẩm theo tên hàng được search
+                listHangHoa = db.HangHoas.Where(s => s.TenHang.Contains(txtSearch)).ToList();
             }
-            else
-            {
-                page = 1;
-            }
-            int start = (int)(page - 1) * pageSize;
-            ViewBag.pageCurrent = page;
-            int totalPage = listHangHoa.Count();
-            float totalNumsize = (totalPage / (float)pageSize);
-            int numSize = (int)Math.Ceiling(totalNumsize);
-            ViewBag.numSize = numSize;
-            var listHangHoa2 = listHangHoa.OrderBy(x => x.MaHang).Skip(start).Take(pageSize);
+            // --------- End ----------
+            // -------------------------------------- Begin Phân trang -------------------------------------
+            int pageSize = 3; // số sản phẩm hiển trị trên 1 trang
+            if (page == null) // nếu ko truyền vào trang hiện tại thì đặt mặc định là trang 1
+            { page = 1; }
+            int start = (int)(page - 1) * pageSize; // số thứ tự trong list của sản phẩm đầu tiên trong trang
+            ViewBag.pageCurrent = page; // trang hiện tại
+            int numSize = (int)Math.Ceiling(listHangHoa.Count() / (float)pageSize); // convertTo int Số trang sẽ hiển thị
+            ViewBag.numSize = numSize; // Số trang sẽ hiển thị
+            var listHangHoa2 = listHangHoa.OrderBy(x => x.MaHang).Skip(start).Take(pageSize); // sắp xếp theo Mã hàng và lấy ra các sản phẩm cần hiển thị từ list[start] -> list[start + pageSize]
+            // --------- End ----------
             return PartialView("_An_MainContent", listHangHoa2);
         }
+
 
         // GET: HangHoas/Details/5
         public ActionResult Details(int? id)

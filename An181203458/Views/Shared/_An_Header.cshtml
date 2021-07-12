@@ -55,8 +55,8 @@
         console.log(txtSearch)
         //alert(txtSearch);
         $.ajax({
-            url: "RenderProductByName",/* tên action gọi đến */
-            data: { id: txtSearch }, /* biến truyền vào action */
+            url: "RenderProductById",/* tên action gọi đến */
+            data: { txtSearch: txtSearch }, /* biến truyền vào action */
             success: function (response) {
                 $("div.content").html(response);/* Thẻ <div class="content"> bên file _Name_Layout nhận kết quả trả về */
             }
